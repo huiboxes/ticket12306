@@ -20,7 +20,7 @@ public class MemberApplication {
         ConfigurableEnvironment env = ctx.getEnvironment();
 
         LOGGER.info("启动成功~~");
-        LOGGER.info("地址: \thttp://127.0.0.1:{}", env.getProperty("server.port"));
+        LOGGER.info("地址: \thttp://127.0.0.1:{}/{}", env.getProperty("server.port"), env.getProperty("server.servlet.context-path"));
 
     }
 

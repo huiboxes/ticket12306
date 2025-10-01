@@ -1,0 +1,6 @@
+GET http://localhost:8001/member/test
+Accept: application/json
+
+<> 2025-10-02T004418.200.json
+
+###
