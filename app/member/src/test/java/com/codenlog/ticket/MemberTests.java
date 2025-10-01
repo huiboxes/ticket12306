@@ -1,10 +1,10 @@
-package com.codenlog.ticket.ticket;
+package com.codenlog.ticket;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TicketApplicationTests {
+class MemberTests {
 
     @Test
     void contextLoads() {
