@@ -34,3 +34,14 @@ build/
 
 
 /logs/
+#src/main/resources/application.yml
+#
+#/app/member/src/main/resources/application.yml
+#
+#src/main/resources/application.yml
+#
+#application.yml
+#git rm --cached app/member/src/main/resources/application-dev.yml
+#git rm --cached src/main/resources/application-dev.yml
+
+*-dev.yml

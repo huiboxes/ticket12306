@@ -2,3 +2,24 @@ server:
   port: 8001
   servlet:
     context-path: /member
+
+spring:
+  application:
+    name: member
+  datasource:
+    #    url: jdbc:mysql://localhost/ticket_member?characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    #    username: username
+    #    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+
+logging:
+  level:
+    com:
+      codenlog:
+        ticket:
+          member:
+            mapper: trace
