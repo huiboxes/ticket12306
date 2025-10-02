@@ -1,4 +1,4 @@
-package com.codenlog.ticket.aspect;
+package com.codenlog.ticket.common.aspect;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.filter.SimplePropertyPreFilter;

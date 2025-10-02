@@ -24,6 +24,7 @@
     <modules>
         <module>app/member</module>
         <module>app/common</module>
+        <module>app/gateway</module>
     </modules>
     <scm>
         <connection/>

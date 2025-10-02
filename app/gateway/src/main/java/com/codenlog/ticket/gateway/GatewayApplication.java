@@ -1,4 +1,4 @@
-package com.codenlog.ticket;
+package com.codenlog.ticket.gateway;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,12 +11,12 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 @SpringBootApplication
 @ComponentScan("com.codenlog")
-public class MemberApplication {
+public class GatewayApplication {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MemberApplication.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GatewayApplication.class);
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext ctx = SpringApplication.run(MemberApplication.class, args);
+        ConfigurableApplicationContext ctx = SpringApplication.run(GatewayApplication.class, args);
         ConfigurableEnvironment env = ctx.getEnvironment();
 
         LOGGER.info("启动成功~~");

@@ -1,4 +1,4 @@
-package com.codenlog.ticket;
+package com.codenlog.ticket.common;
 
 /**
  * Hello world!
