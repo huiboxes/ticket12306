@@ -8,7 +8,7 @@ public class BusinessException extends RuntimeException {
 
     private BusinessExceptionEnum e;
 
-    public BusinessException(BusinessExceptionEnum e) {
+    private BusinessException(BusinessExceptionEnum e) {
         this.e = e;
     }
 
@@ -20,11 +20,17 @@ public class BusinessException extends RuntimeException {
         this.e = e;
     }
 
-    public BusinessException(String message, Object ...params) {
+    private BusinessException(String message, Object ...params) {
         super(String.format(message, params));
     }
 
+    public static BusinessException of(BusinessExceptionEnum e) {
+        return new BusinessException(e);
+    }
 
+    public static BusinessException of(String message, Object ...params) {
+        return new BusinessException(message, params);
+    }
 
     /**
      * 不写入堆栈信息，提高性能
