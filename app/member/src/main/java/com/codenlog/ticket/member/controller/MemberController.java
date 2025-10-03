@@ -1,8 +1,11 @@
 package com.codenlog.ticket.member.controller;
 
+import com.codenlog.ticket.common.response.CommonResp;
+import com.codenlog.ticket.member.request.MemberRegisterRequest;
 import com.codenlog.ticket.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -16,8 +19,14 @@ public class MemberController {
     private MemberService memberService;
 
     @GetMapping("/count")
-    public Long count() {
+    public CommonResp<Long> count() {
         return memberService.count();
+    }
+
+    @PostMapping("/register")
+
+    public CommonResp<Long> register(MemberRegisterRequest request) {
+        return memberService.register(request);
     }
 
 }
