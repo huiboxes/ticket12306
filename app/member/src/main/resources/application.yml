@@ -23,3 +23,24 @@ logging:
         ticket:
           member:
             mapper: trace
+
+
+app:
+  captcha:
+    graph:
+      expire: 120  # 图形验证码有效期2分钟
+      width: 120
+      height: 40
+      length: 4
+    phone:
+      expire: 5m  # 手机验证码有效期5分钟
+      length: 6
+      send-interval: 1m  # 发送间隔1分钟
+    anti-brush:
+      max-ip-requests: 10  # 10分钟内最多10次请求
+      time-window: 10m
+      graph-captcha-threshold: 3  # 超过3次请求需要图形验证码
+    sms:
+      default-provider: test  # 默认使用阿里云短信
+      test-mode: true  # 测试模式
+      test-phone-number: "13800138000"  # 测试模式下的接收号码

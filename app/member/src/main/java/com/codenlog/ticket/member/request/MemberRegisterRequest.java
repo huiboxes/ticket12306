@@ -1,6 +1,7 @@
 package com.codenlog.ticket.member.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 /**
  * @Author: devhui@foxmail.com
@@ -9,6 +10,7 @@ import jakarta.validation.constraints.NotBlank;
 public class MemberRegisterRequest {
 
     @NotBlank(message = "手机号不能为空")
+    @Pattern(regexp = "^1[3-9]\\d{8}$", message = "手机号格式错误")
     private String mobile;
 
     public String getMobile() {

@@ -6,7 +6,8 @@ package com.codenlog.ticket.common.exception;
  */
 public enum BusinessExceptionEnum {
 
-    MEMBER_MOBILE_EXIST("手机号已注册");
+    MEMBER_MOBILE_EXIST("手机号已注册"),
+    GET_IMAGE_CAPTCH_FAILED("获取图片验证码失败");
 
     private String desc;
 
