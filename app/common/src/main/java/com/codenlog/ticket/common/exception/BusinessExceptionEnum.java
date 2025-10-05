@@ -7,7 +7,10 @@ package com.codenlog.ticket.common.exception;
 public enum BusinessExceptionEnum {
 
     MEMBER_MOBILE_EXIST("手机号已注册"),
-    GET_IMAGE_CAPTCH_FAILED("获取图片验证码失败");
+    GET_CAPTCH_FAILED("获取图片验证码失败"),
+    GET_TOO_MANY_PHONE_REQUESTS("该手机号今日获取验证码次数已达上限"),
+    GET_TOO_MANY_REQUESTS_PHONE_CAPTCHA("验证码发送过于频繁，请稍后再试"),
+    GET_TOO_MANY_REQUESTS("请求过于频繁，请稍后再试");
 
     private String desc;
 

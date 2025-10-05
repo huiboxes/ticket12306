@@ -1,5 +1,7 @@
 package com.codenlog.ticket.member.service;
 
+import com.codenlog.ticket.common.exception.BusinessException;
+import com.codenlog.ticket.common.exception.BusinessExceptionEnum;
 import com.codenlog.ticket.member.config.captcha.CaptchaProperties;
 import com.codenlog.ticket.member.config.captcha.GraphCaptchaGenerator;
 import com.codenlog.ticket.member.config.sms.SmsProviderFactory;
@@ -63,11 +65,11 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
     public boolean sendPhoneCaptcha(String phoneNumber, String ipAddress,
                                     String graphCaptchaUuid, String graphCaptchaCode) {
         if (antiBrushService.isOverRequestLimit(ipAddress)) {
-            throw new RuntimeException("请求过于频繁，请稍后再试");
+            throw BusinessException.of(BusinessExceptionEnum.GET_TOO_MANY_REQUESTS);
         }
 
         if (antiBrushService.isOverPhoneLimit(phoneNumber)) {
-            throw new RuntimeException("该手机号今日获取验证码次数已达上限");
+            throw BusinessException.of(BusinessExceptionEnum.GET_TOO_MANY_PHONE_REQUESTS);
         }
 //
 //        if (needGraphCaptcha(ipAddress)) {
@@ -87,7 +89,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
                     TimeUnit.SECONDS);
 
             if (!locked) {
-                throw new RuntimeException("验证码发送过于频繁，请稍后再试");
+                throw BusinessException.of(BusinessExceptionEnum.GET_TOO_MANY_REQUESTS_PHONE_CAPTCHA);
             }
 
             String code = generatePhoneCode(properties.getPhone().getLength());
@@ -101,7 +103,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
 
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new RuntimeException("发送验证码失败，请重试");
+            throw BusinessException.of(BusinessExceptionEnum.GET_CAPTCH_FAILED);
         } finally {
             if (lock.isHeldByCurrentThread()) {
                 lock.unlock();

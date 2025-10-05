@@ -2,23 +2,24 @@ package com.codenlog.ticket.member.controller;
 
 import com.codenlog.ticket.common.response.CommonResp;
 import com.codenlog.ticket.member.domain.GraphCaptcha;
+import com.codenlog.ticket.member.request.SendPhoneCaptchaRequest;
+import com.codenlog.ticket.member.request.VerifyPhoneCaptchaRequest;
 import com.codenlog.ticket.member.service.VerificationCodeService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @Author: devhui@foxmail.com
  * @Date: 2025/10/04/9:07 PM
  */
-@RestController("captcha")
+@RestController
+@RequestMapping("/captcha")
 public class VerificationCodeController {
 
     private final VerificationCodeService verificationCodeService;
@@ -40,52 +41,44 @@ public class VerificationCodeController {
      * 检查是否需要图形验证码
      */
     @GetMapping("/need-graph")
-    public ResponseEntity<Map<String, Boolean>> needGraphCaptcha(HttpServletRequest request) {
+    public CommonResp<Boolean> needGraphCaptcha(HttpServletRequest request) {
         String ipAddress = getClientIp(request);
         boolean need = verificationCodeService.needGraphCaptcha(ipAddress);
 
-        Map<String, Boolean> result = new HashMap<>();
-        result.put("needGraphCaptcha", need);
-        return ResponseEntity.ok(result);
+        CommonResp<Boolean> res = new CommonResp<>(need);
+        res.setMessage(need ? "需要图形验证码" : "不需要图形验证码");
+
+        return res;
     }
 
     /**
      * 发送手机验证码
      */
     @PostMapping("/phone")
-    public ResponseEntity<Map<String, String>> sendPhoneCaptcha(
-            @RequestParam String phoneNumber,
-            @RequestParam(required = false) String graphCaptchaUuid,
-            @RequestParam(required = false) String graphCaptchaCode,
-            HttpServletRequest request) {
+    public CommonResp<Boolean> sendPhoneCaptcha(@Valid @RequestBody SendPhoneCaptchaRequest req,
+                                                HttpServletRequest request) {
 
         String ipAddress = getClientIp(request);
         boolean success = verificationCodeService.sendPhoneCaptcha(
-                phoneNumber, ipAddress, graphCaptchaUuid, graphCaptchaCode);
+                req.getPhoneNumber(), ipAddress, req.getGraphCaptchaUuid(), req.getGraphCaptchaCode());
 
-        Map<String, String> result = new HashMap<>();
-        if (success) {
-            result.put("message", "验证码已发送，请注意查收");
-            return ResponseEntity.ok(result);
-        } else {
-            result.put("message", "验证码发送失败，请重试");
-            return ResponseEntity.badRequest().body(result);
-        }
+        CommonResp<Boolean> res = new CommonResp<>(success);
+        res.setMessage(success ? "验证码已发送，请注意查收" : "验证码发送失败，请重试");
+        return res;
     }
 
     /**
      * 验证手机验证码
      */
     @PostMapping("/verify-phone")
-    public ResponseEntity<Map<String, Boolean>> verifyPhoneCaptcha(
-            @RequestParam String phoneNumber,
-            @RequestParam String code) {
+    public CommonResp<Boolean> verifyPhoneCaptcha(@Valid @RequestBody VerifyPhoneCaptchaRequest req) {
 
-        boolean valid = verificationCodeService.verifyPhoneCaptcha(phoneNumber, code);
+        boolean valid = verificationCodeService.verifyPhoneCaptcha(req.getPhoneNumber(), req.getCode());
 
-        Map<String, Boolean> result = new HashMap<>();
-        result.put("valid", valid);
-        return ResponseEntity.ok(result);
+        CommonResp<Boolean> res = new CommonResp<>(valid);
+        res.setMessage(valid ? "验证码验证成功" : "验证码验证失败");
+
+        return res;
     }
 
     /**
