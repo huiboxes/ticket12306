@@ -12,6 +12,9 @@ public class SendPhoneCaptchaRequest {
     @Pattern(regexp = "^1[3-9]\\d{8}$", message = "手机号格式错误")
     private String phoneNumber;
 
+    @NotBlank(message = "业务类型不能为空")
+    private String businessType;
+
     private String graphCaptchaUuid;
 
     private String graphCaptchaCode;
@@ -22,6 +25,14 @@ public class SendPhoneCaptchaRequest {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getBusinessType() {
+        return businessType;
+    }
+
+    public void setBusinessType(String businessType) {
+        this.businessType = businessType;
     }
 
     public String getGraphCaptchaUuid() {

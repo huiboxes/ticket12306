@@ -62,7 +62,7 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
     }
 
     @Override
-    public boolean sendPhoneCaptcha(String phoneNumber, String ipAddress,
+    public boolean sendPhoneCaptcha(String phoneNumber, String ipAddress, String businessType,
                                     String graphCaptchaUuid, String graphCaptchaCode) {
         if (antiBrushService.isOverRequestLimit(ipAddress)) {
             throw BusinessException.of(BusinessExceptionEnum.GET_TOO_MANY_REQUESTS);
@@ -94,7 +94,9 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
 
             String code = generatePhoneCode(properties.getPhone().getLength());
 
-            phoneCaptchaCache.put(phoneNumber, code,
+            // 使用业务类型+手机号作为key存储验证码，确保不同业务使用不同的验证码
+            String captchaKey = businessType + ":" + phoneNumber;
+            phoneCaptchaCache.put(captchaKey, code,
                     properties.getPhone().getExpire().getSeconds(),
                     TimeUnit.SECONDS);
 
@@ -112,13 +114,15 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
     }
 
     @Override
-    public boolean verifyPhoneCaptcha(String phoneNumber, String code) {
-        if (phoneNumber == null || code == null) {
+    public boolean verifyPhoneCaptcha(String phoneNumber, String code, String businessType) {
+        if (phoneNumber == null || code == null || businessType == null) {
             return false;
         }
 
+        // 使用业务类型+手机号作为key获取验证码
+        String captchaKey = businessType + ":" + phoneNumber;
         // 获取并删除验证码
-        String storedCode = phoneCaptchaCache.remove(phoneNumber);
+        String storedCode = phoneCaptchaCache.remove(captchaKey);
         return code.equals(storedCode);
     }
 

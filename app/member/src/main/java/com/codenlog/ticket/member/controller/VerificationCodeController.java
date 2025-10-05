@@ -60,7 +60,8 @@ public class VerificationCodeController {
 
         String ipAddress = getClientIp(request);
         boolean success = verificationCodeService.sendPhoneCaptcha(
-                req.getPhoneNumber(), ipAddress, req.getGraphCaptchaUuid(), req.getGraphCaptchaCode());
+                req.getPhoneNumber(), ipAddress, req.getBusinessType(), 
+                req.getGraphCaptchaUuid(), req.getGraphCaptchaCode());
 
         CommonResp<Boolean> res = new CommonResp<>(success);
         res.setMessage(success ? "验证码已发送，请注意查收" : "验证码发送失败，请重试");
@@ -73,7 +74,8 @@ public class VerificationCodeController {
     @PostMapping("/verify-phone")
     public CommonResp<Boolean> verifyPhoneCaptcha(@Valid @RequestBody VerifyPhoneCaptchaRequest req) {
 
-        boolean valid = verificationCodeService.verifyPhoneCaptcha(req.getPhoneNumber(), req.getCode());
+        boolean valid = verificationCodeService.verifyPhoneCaptcha(
+                req.getPhoneNumber(), req.getCode(), req.getBusinessType());
 
         CommonResp<Boolean> res = new CommonResp<>(valid);
         res.setMessage(valid ? "验证码验证成功" : "验证码验证失败");

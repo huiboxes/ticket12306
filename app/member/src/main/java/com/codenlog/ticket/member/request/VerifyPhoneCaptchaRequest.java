@@ -15,6 +15,9 @@ public class VerifyPhoneCaptchaRequest {
     @NotBlank(message = "验证码不能为空")
     private String code;
 
+    @NotBlank(message = "业务类型不能为空")
+    private String businessType;
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -29,5 +32,13 @@ public class VerifyPhoneCaptchaRequest {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getBusinessType() {
+        return businessType;
+    }
+
+    public void setBusinessType(String businessType) {
+        this.businessType = businessType;
     }
 }
