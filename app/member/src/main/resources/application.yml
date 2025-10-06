@@ -41,6 +41,6 @@ app:
       time-window: 10m
       graph-captcha-threshold: 3  # 超过3次请求需要图形验证码
     sms:
-      default-provider: test  # 默认使用阿里云短信
+      default-provider: 'test'  # 默认使用阿里云短信
       test-mode: true  # 测试模式
       test-phone-number: "13800138000"  # 测试模式下的接收号码

@@ -24,7 +24,7 @@ public class AliyunSmsProvider implements SmsProvider {
 
     @Override
     public String getName() {
-        return "";
+        return "aliyun";
     }
 
     @Override

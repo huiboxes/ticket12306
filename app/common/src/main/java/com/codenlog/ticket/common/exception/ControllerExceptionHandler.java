@@ -7,6 +7,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.async.AsyncRequestNotUsableException;
 
 /**
  * @Author: devhui@foxmail.com
@@ -26,6 +27,12 @@ public class ControllerExceptionHandler {
     @ResponseBody
     public CommonResp exceptionHandler(Exception e) {
         CommonResp commonResp = new CommonResp();
+        
+        if (e instanceof AsyncRequestNotUsableException) {
+            LOG.warn("客户端连接已关闭: {}", e.getMessage());
+            return null; // 返回null避免向已关闭的连接写入数据
+        }
+        
         LOG.error("系统异常：", e);
         commonResp.setSuccess(false);
         commonResp.setMessage("系统出现异常，请联系管理员");

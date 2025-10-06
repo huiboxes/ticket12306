@@ -1,9 +1,12 @@
 package com.codenlog.ticket.member.config.sms;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @Author: devhui@foxmail.com
  * @Date: 2025/10/04/8:09 PM
  */
+@Component
 public class TencentSmsProvider implements SmsProvider {
 
     // @Value("${app.sms.tencent.secret-id}")

@@ -121,9 +121,14 @@ public class VerificationCodeServiceImpl implements VerificationCodeService {
 
         // 使用业务类型+手机号作为key获取验证码
         String captchaKey = businessType + ":" + phoneNumber;
-        // 获取并删除验证码
-        String storedCode = phoneCaptchaCache.remove(captchaKey);
-        return code.equals(storedCode);
+        try {
+            // 获取并删除验证码
+            String storedCode = phoneCaptchaCache.remove(captchaKey);
+            return code.equals(storedCode);
+        } catch (Exception e) {
+            Thread.currentThread().interrupt();
+            throw BusinessException.of(BusinessExceptionEnum.VERIFY_CAPTCH_FAILED);
+        }
     }
 
     @Override
