@@ -13,10 +13,11 @@ spring:
 
       globalcors:
         cors-configurations:
-          [/**]:
-            allowedOriginPatterns: *
-            allowedHeaders: *
-            allowedMethods: *
+          '[/**]':
+            allowed-origin-patterns:
+              - '*'
+            allowedHeaders: '*'
+            allowedMethods: '*'
             allowCredentials: true
             maxAge: 3600
 
