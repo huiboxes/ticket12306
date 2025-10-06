@@ -8,6 +8,7 @@ import com.codenlog.ticket.common.util.SnowUtil;
 import com.codenlog.ticket.member.domain.Member;
 import com.codenlog.ticket.member.domain.MemberExample;
 import com.codenlog.ticket.member.mapper.MemberMapper;
+import com.codenlog.ticket.member.request.MemberLoginRequest;
 import com.codenlog.ticket.member.request.MemberRegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,12 +25,11 @@ public class MemberService {
     @Autowired
     private MemberMapper memberMapper;
 
+    @Autowired
+    private VerificationCodeService verificationCodeService;
+
     public CommonResp<Long> count() {
-
-        MemberExample example = new MemberExample();
-        example.createCriteria().andIdEqualTo(1L);
-
-        return new CommonResp<Long>(memberMapper.countByExample(example));
+        return new CommonResp<Long>(memberMapper.countByExample(null));
     }
 
     public CommonResp<Long> register(MemberRegisterRequest request) {
@@ -45,11 +45,30 @@ public class MemberService {
 
         return new CommonResp(member.getId());
     }
-
-    private boolean hasMember(String mobile) {
+    
+    public boolean hasMember(String mobile) {
         MemberExample condition = new MemberExample();
         condition.createCriteria().andMobileEqualTo(mobile);
         List<Member> memberList = memberMapper.selectByExample(condition);
         return CollectionUtil.isNotEmpty(memberList);
+    }
+    
+    public CommonResp<Long> login(MemberLoginRequest request) {
+        boolean valid = verificationCodeService.verifyPhoneCaptcha(
+                request.getMobile(), request.getCode(), "LOGIN");
+        if (!valid) {
+            throw BusinessException.of(BusinessExceptionEnum.VERIFY_CAPTCH_FAILED);
+        }
+
+        MemberExample condition = new MemberExample();
+        condition.createCriteria().andMobileEqualTo(request.getMobile());
+        List<Member> memberList = memberMapper.selectByExample(condition);
+        if (CollectionUtil.isEmpty(memberList)) {
+            // 用户不存在，自动注册
+            MemberRegisterRequest registerRequest = new MemberRegisterRequest();
+            registerRequest.setMobile(request.getMobile());
+            return register(registerRequest);
+        }
+        return new CommonResp<Long>(memberList.get(0).getId());
     }
 }

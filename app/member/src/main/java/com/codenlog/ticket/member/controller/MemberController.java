@@ -1,18 +1,20 @@
 package com.codenlog.ticket.member.controller;
 
 import com.codenlog.ticket.common.response.CommonResp;
+import com.codenlog.ticket.member.request.MemberLoginRequest;
 import com.codenlog.ticket.member.request.MemberRegisterRequest;
 import com.codenlog.ticket.member.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author: devhui@foxmail.com
  * @Date: 2025/10/02/7:45 PM
  */
-@RestController("/member")
+@RestController
+@RequestMapping("/member")
 public class MemberController {
 
     @Autowired
@@ -24,9 +26,13 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-
-    public CommonResp<Long> register(MemberRegisterRequest request) {
+    public CommonResp<Long> register(@Valid @RequestBody MemberRegisterRequest request) {
         return memberService.register(request);
     }
-
+    
+    @PostMapping("/login")
+    public CommonResp<Long> login(@Valid @RequestBody MemberLoginRequest request,
+                                  HttpServletRequest servletRequest) {
+        return memberService.login(request);
+    }
 }

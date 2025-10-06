@@ -22,12 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/captcha")
 public class VerificationCodeController {
 
-    private final VerificationCodeService verificationCodeService;
-
     @Autowired
-    public VerificationCodeController(VerificationCodeService verificationCodeService) {
-        this.verificationCodeService = verificationCodeService;
-    }
+    private VerificationCodeService verificationCodeService;
 
     /**
      * 获取图形验证码

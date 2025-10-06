@@ -45,3 +45,4 @@ build/
 #git rm --cached src/main/resources/application-dev.yml
 
 *-dev.yml
+/ui/**
