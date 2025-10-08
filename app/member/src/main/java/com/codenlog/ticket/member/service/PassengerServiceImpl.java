@@ -1,6 +1,7 @@
 package com.codenlog.ticket.member.service;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.codenlog.ticket.common.context.LoginMemberContext;
 import com.codenlog.ticket.common.response.CommonResp;
 import com.codenlog.ticket.common.util.SnowUtil;
 import com.codenlog.ticket.member.domain.Passenger;
@@ -22,8 +23,10 @@ public class PassengerServiceImpl implements PassengerService{
     @Override
     public CommonResp save(PassengerSaveRequest req) {
         Passenger passenger = BeanUtil.copyProperties(req, Passenger.class);
-        int insert = passengerMapper.insertSelective(passenger);
+        passenger.setMemberId(LoginMemberContext.getMember().getId());
         passenger.setId(SnowUtil.getSnowflakeNextId());
+        int insert = passengerMapper.insertSelective(passenger);
+
         if (insert != 1) {
             return CommonResp.fail("新增乘客失败");
         }

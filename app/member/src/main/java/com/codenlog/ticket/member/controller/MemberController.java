@@ -1,7 +1,7 @@
 package com.codenlog.ticket.member.controller;
 
 import com.codenlog.ticket.common.response.CommonResp;
-import com.codenlog.ticket.member.MemberLoginResponse;
+import com.codenlog.ticket.member.response.MemberLoginResponse;
 import com.codenlog.ticket.member.request.MemberLoginRequest;
 import com.codenlog.ticket.member.request.MemberRegisterRequest;
 import com.codenlog.ticket.member.service.MemberService;

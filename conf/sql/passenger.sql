@@ -16,3 +16,4 @@ create table passenger (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='旅客表';
 
 select * from passenger;
+select * from member where id = '1975115796904546304'

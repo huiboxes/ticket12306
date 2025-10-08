@@ -30,7 +30,7 @@ public class VerificationCodeController {
      */
     @GetMapping("/graph")
     public CommonResp<GraphCaptcha> getGraphCaptcha() {
-        return new CommonResp<GraphCaptcha>(verificationCodeService.generateGraphCaptcha());
+        return CommonResp.success(verificationCodeService.generateGraphCaptcha());
     }
 
     /**
@@ -40,11 +40,7 @@ public class VerificationCodeController {
     public CommonResp<Boolean> needGraphCaptcha(HttpServletRequest request) {
         String ipAddress = getClientIp(request);
         boolean need = verificationCodeService.needGraphCaptcha(ipAddress);
-
-        CommonResp<Boolean> res = new CommonResp<>(need);
-        res.setMessage(need ? "需要图形验证码" : "不需要图形验证码");
-
-        return res;
+        return CommonResp.success(need ? "需要图形验证码" : "不需要图形验证码");
     }
 
     /**
@@ -55,13 +51,11 @@ public class VerificationCodeController {
                                                 HttpServletRequest request) {
 
         String ipAddress = getClientIp(request);
-        boolean success = verificationCodeService.sendPhoneCaptcha(
+        boolean bIsSuccess = verificationCodeService.sendPhoneCaptcha(
                 req.getPhoneNumber(), ipAddress, req.getBusinessType(), 
                 req.getGraphCaptchaUuid(), req.getGraphCaptchaCode());
 
-        CommonResp<Boolean> res = new CommonResp<>(success);
-        res.setMessage(success ? "验证码已发送，请注意查收" : "验证码发送失败，请重试");
-        return res;
+        return CommonResp.success(bIsSuccess ? "验证码已发送，请注意查收" : "验证码发送失败，请重试");
     }
 
     /**
@@ -70,13 +64,10 @@ public class VerificationCodeController {
     @PostMapping("/verify-phone")
     public CommonResp<Boolean> verifyPhoneCaptcha(@Valid @RequestBody VerifyPhoneCaptchaRequest req) {
 
-        boolean valid = verificationCodeService.verifyPhoneCaptcha(
+        boolean bIsValid = verificationCodeService.verifyPhoneCaptcha(
                 req.getPhoneNumber(), req.getCode(), req.getBusinessType());
 
-        CommonResp<Boolean> res = new CommonResp<>(valid);
-        res.setMessage(valid ? "验证码验证成功" : "验证码验证失败");
-
-        return res;
+        return CommonResp.success(bIsValid ? "验证码验证成功" : "验证码验证失败");
     }
 
     /**

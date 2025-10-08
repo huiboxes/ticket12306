@@ -1,4 +1,4 @@
-package com.codenlog.ticket.member;
+package com.codenlog.ticket.common.response;
 
 /**
  * @Author: devhui@foxmail.com
