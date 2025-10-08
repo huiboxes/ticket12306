@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.async.AsyncRequestNotUsableException;
 
+import java.io.IOException;
+
 /**
  * @Author: devhui@foxmail.com
  * @Date: 2025/10/03/2:51 PM
@@ -28,9 +30,17 @@ public class ControllerExceptionHandler {
     public CommonResp exceptionHandler(Exception e) {
         CommonResp commonResp = new CommonResp();
         
+        // 处理客户端连接中断异常
         if (e instanceof AsyncRequestNotUsableException) {
             LOG.warn("客户端连接已关闭: {}", e.getMessage());
             return null; // 返回null避免向已关闭的连接写入数据
+        }
+        
+        // 处理客户端主动关闭连接的异常 (Tomcat)
+        if (e instanceof IOException && e.getMessage() != null && 
+            (e.getMessage().contains("Broken pipe") || e.getMessage().contains("Connection reset by peer"))) {
+            LOG.warn("客户端连接已关闭: {}", e.getMessage());
+            return null;
         }
         
         LOG.error("系统异常：", e);
