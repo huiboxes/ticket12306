@@ -9,7 +9,7 @@ public class CommonResp<T> {
     /**
      * 业务上的成功或失败
      */
-    private boolean success = true;
+    private boolean success;
 
     /**
      * 返回信息
@@ -28,7 +28,42 @@ public class CommonResp<T> {
         this.data = data;
     }
 
-    public boolean getSuccess() {
+    public static <T> CommonResp<T> success() {
+        CommonResp<T> resp = new CommonResp<>();
+        resp.success = true;
+        return resp;
+    }
+
+    public static <T> CommonResp<T> success(String message) {
+        CommonResp<T> resp = new CommonResp<>();
+        resp.success = true;
+        resp.message = message;
+        return resp;
+    }
+
+    public static <T> CommonResp<T> success(T data) {
+        CommonResp<T> resp = new CommonResp<>();
+        resp.success = true;
+        resp.data = data;
+        return resp;
+    }
+
+    public static <T> CommonResp<T> success(String message, T data) {
+        CommonResp<T> resp = new CommonResp<>();
+        resp.success = true;
+        resp.message = message;
+        resp.data = data;
+        return resp;
+    }
+
+    public static <T> CommonResp<T> fail(String message) {
+        CommonResp<T> resp = new CommonResp<>();
+        resp.success = false;
+        resp.message = message;
+        return resp;
+    }
+
+    public boolean isSuccess() {
         return success;
     }
 
