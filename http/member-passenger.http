@@ -1,0 +1,16 @@
+POST http://localhost:8000/member/passenger/save
+Content-Type: application/json
+authorization: {{ token }}
+
+{
+  "name": "Juan",
+  "idCard": "123456789",
+  "memberId": "1",
+  "type": "1"
+}
+
+
+> {%
+    client.global.set("token", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTk3NTExNTc5NjkwNDU0NjMwNCwibW9iaWxlIjoiMTgzODE5NTM4NzEiLCJpYXQiOjE3NTk5MzM2OTcsImV4cCI6MTc2MDAyMDA5NywibmJmIjoxNzU5OTMzNjk3fQ.r3iDwuI9hr7qTseDITWpT5YX86-iMmpTmIR_TcWrkOE")
+
+%}

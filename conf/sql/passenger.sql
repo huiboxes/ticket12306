@@ -12,7 +12,7 @@ create table passenger (
   `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
   `modifier` varchar(64) DEFAULT NULL COMMENT '修改人',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='旅客表';
 
-select * from member;
+select * from passenger;

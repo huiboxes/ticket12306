@@ -7,13 +7,12 @@ import com.codenlog.ticket.common.exception.BusinessExceptionEnum;
 import com.codenlog.ticket.common.response.CommonResp;
 import com.codenlog.ticket.common.util.JwtUtil;
 import com.codenlog.ticket.common.util.SnowUtil;
-import com.codenlog.ticket.member.MemberLoginResponse;
+import com.codenlog.ticket.member.response.MemberLoginResponse;
 import com.codenlog.ticket.member.domain.Member;
 import com.codenlog.ticket.member.domain.MemberExample;
 import com.codenlog.ticket.member.mapper.MemberMapper;
 import com.codenlog.ticket.member.request.MemberLoginRequest;
 import com.codenlog.ticket.member.request.MemberRegisterRequest;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,7 @@ public class MemberService {
     private VerificationCodeService verificationCodeService;
 
     public CommonResp<Long> count() {
-        return new CommonResp<Long>(memberMapper.countByExample(null));
+        return CommonResp.success(memberMapper.countByExample(null));
     }
 
     public CommonResp<MemberLoginResponse> register(MemberRegisterRequest request) {
@@ -51,7 +50,7 @@ public class MemberService {
         response.setId(member.getId());
         response.setMobile(mobile);
 
-        return new CommonResp(response);
+        return CommonResp.success(response);
     }
     
     public boolean hasMember(String mobile) {
@@ -80,11 +79,10 @@ public class MemberService {
 
 
         Member member = memberList.get(0);
-        MemberLoginResponse response = new MemberLoginResponse();
-        BeanUtils.copyProperties(member, response);
+        MemberLoginResponse response = BeanUtil.copyProperties(member, MemberLoginResponse.class);
 
         String token = JwtUtil.createToken(BeanUtil.beanToMap(response));
         response.setToken(token);
-        return new CommonResp<>(response);
+        return CommonResp.success(response);
     }
 }
