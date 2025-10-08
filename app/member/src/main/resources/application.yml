@@ -13,7 +13,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   devtools:
     restart:
-      exclude: "**/*.log,**/*.tmp,**/logs/**"
+      enabled: false
+    livereload:
+      enabled: false
 
 
 mybatis:
