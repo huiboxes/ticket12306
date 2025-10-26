@@ -1,14 +1,14 @@
 package com.codenlog.ticket.member.controller;
 
 import com.codenlog.ticket.common.response.CommonResp;
+import com.codenlog.ticket.common.response.PageResp;
+import com.codenlog.ticket.member.request.PassengerQueryRequest;
 import com.codenlog.ticket.member.request.PassengerSaveRequest;
 import com.codenlog.ticket.member.response.PassengerQueryResponse;
 import com.codenlog.ticket.member.service.PassengerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @Author: devhui@foxmail.com
@@ -26,9 +26,9 @@ public class PassengerController {
         return passengerService.save(req);
     }
 
-    @GetMapping("/list/{memberId}")
-    public CommonResp<List<PassengerQueryResponse>> queryList(@PathVariable Long memberId) {
-        return passengerService.queryList(memberId);
+    @GetMapping("/list")
+    public CommonResp<PageResp<PassengerQueryResponse>> queryList(@Valid @ModelAttribute PassengerQueryRequest request) {
+        return passengerService.queryList(request);
     }
 
 }

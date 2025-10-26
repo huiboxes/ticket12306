@@ -1,10 +1,12 @@
 package com.codenlog.ticket.member.request;
 
+import com.codenlog.ticket.common.request.PageRequest;
+
 /**
  * @Author: devhui@foxmail.com
  * @Date: 2025/10/26/11:12 PM
  */
-public class PassengerQueryRequest {
+public class PassengerQueryRequest extends PageRequest {
 
 
     private Long memberId;
