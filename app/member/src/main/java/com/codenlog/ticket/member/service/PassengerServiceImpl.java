@@ -5,10 +5,15 @@ import com.codenlog.ticket.common.context.LoginMemberContext;
 import com.codenlog.ticket.common.response.CommonResp;
 import com.codenlog.ticket.common.util.SnowUtil;
 import com.codenlog.ticket.member.domain.Passenger;
+import com.codenlog.ticket.member.domain.PassengerExample;
 import com.codenlog.ticket.member.mapper.PassengerMapper;
 import com.codenlog.ticket.member.request.PassengerSaveRequest;
+import com.codenlog.ticket.member.response.PassengerQueryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @Author: devhui@foxmail.com
@@ -33,5 +38,15 @@ public class PassengerServiceImpl implements PassengerService{
         return CommonResp.success("新增乘客成功");
     }
 
-
+    @Override
+    public CommonResp<List<PassengerQueryResponse>> queryList(Long memberId) {
+        PassengerExample passengerExample = new PassengerExample();
+        PassengerExample.Criteria criteria = passengerExample.createCriteria();
+        if(Objects.nonNull(memberId)) {
+            criteria.andMemberIdEqualTo(memberId);
+        }
+        List<Passenger> passengers = passengerMapper.selectByExample(passengerExample);
+        List<PassengerQueryResponse> passengerQueryResponses = BeanUtil.copyToList(passengers, PassengerQueryResponse.class);
+        return CommonResp.success(passengerQueryResponses);
+    }
 }
