@@ -1,11 +1,15 @@
 package com.codenlog.ticket.member.response;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 /**
  * @Author: devhui@foxmail.com
  * @Date: 2025/10/06/6:05 PM
  */
 public class MemberLoginResponse {
 
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     private String mobile;

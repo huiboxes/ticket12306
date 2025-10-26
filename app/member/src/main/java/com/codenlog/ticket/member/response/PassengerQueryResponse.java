@@ -1,5 +1,8 @@
 package com.codenlog.ticket.member.response;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 import java.util.Date;
 import java.util.Objects;
 
@@ -9,6 +12,7 @@ import java.util.Objects;
  */
 public class PassengerQueryResponse {
 
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long memberId;
 
     private String name;
